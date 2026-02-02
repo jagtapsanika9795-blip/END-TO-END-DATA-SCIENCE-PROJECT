@@ -1,0 +1,32 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Student Score Prediction</title>
+</head>
+<body>
+    <h2>Predict Student Marks</h2>
+    <form id="predictForm">
+        Hours Studied: <input type="number" id="hours"><br>
+        Attendance (%): <input type="number" id="attendance"><br>
+        <button type="button" onclick="predict()">Predict</button>
+    </form>
+    <h3 id="result"></h3>
+
+    <script>
+        function predict() {
+        const hours = document.getElementById('hours').value;
+        const attendance = document.getElementById('attendance').value;
+
+        fetch('http://127.0.0.1:5000/predict', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ hours_studied: Number(hours), attendance: Number(attendance) })
+        })
+        .then(response => response.json())
+        .then(data => {
+        document.getElementById('result').innerText = "Predicted Marks: " + data["Predicted Marks"];
+        });
+        }
+    </script>
+</body>
+</html>
